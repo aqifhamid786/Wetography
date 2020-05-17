@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.aqif.wetography.addedcities.AddedCitiesFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cities_fragment_parentview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cities_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewmodel.addedCities.size()>0 ? View.VISIBLE : View.INVISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewmodel.addedCities.size()>0 ? View.INVISIBLE : View.VISIBLE}"
+            android:text="@string/add_some_cities_msg"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/cities_fragment_parentview"
+            app:layout_constraintBottom_toBottomOf="@id/cities_fragment_parentview"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/cities_fragment_parentview"
+            app:layout_constraintRight_toRightOf="@id/cities_fragment_parentview"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@android:drawable/ic_input_add" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

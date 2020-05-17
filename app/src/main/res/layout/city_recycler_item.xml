@@ -3,11 +3,13 @@
     <data>
         <variable
             name="city"
-            type="com.aqif.wetography.City" />
+            type="com.aqif.wetography.model.City" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="@dimen/city_recycler_item_height"
+        android:layout_margin="0.5dp"
+        android:background="@android:color/white"
         android:id="@+id/city_recycler_item"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 

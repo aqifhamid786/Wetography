@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/AddedCitiesFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.aqif.wetography.CitiesFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/cities_fragment">
+        android:id="@+id/AddedCitiesFragment"
+        android:name="com.aqif.wetography.addedcities.AddedCitiesFragment"
+        android:label="@string/added_cities_fragment_label"
+        tools:layout="@layout/added_cities_fragment">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_AddedCitiesFragment_to_AddCityFragment"
+            app:destination="@id/AddCityFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.aqif.wetography.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/AddCityFragment"
+        android:name="com.aqif.wetography.addcity.AddCityFragment"
+        android:label="@string/add_city_fragment_label"
+        tools:layout="@layout/add_city_fragment">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_AddCityFragment_to_AddedCityFragment"
+            app:destination="@id/AddedCitiesFragment" />
     </fragment>
 </navigation>
