@@ -29,6 +29,9 @@
             android:text="@string/add_some_cities_msg"
             android:layout_margin="16dp"
             android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/cities_fragment_parentview"
             app:layout_constraintBottom_toBottomOf="@id/cities_fragment_parentview"/>
 

@@ -15,6 +15,13 @@ import com.aqif.wetography.model.City
 import com.aqif.wetography.R
 import com.aqif.wetography.databinding.AddCityFragmentBinding
 import com.aqif.wetography.hideKeyboard
+import com.aqif.wetography.restapi.WeatherAPI
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -28,6 +35,7 @@ class AddCityFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = AddCityFragmentBinding.inflate(inflater, container, false)
         binding.citiesRecyclerview.adapter = adapter
+
         return binding.root
     }
 

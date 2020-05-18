@@ -12,7 +12,6 @@ class AddedCitiesRepository(sharedPreferences: SharedPreferences) {
     val addedCities: MutableLiveData<ArrayList<City>> = MutableLiveData()
     val addedCityIds: MutableLiveData<ArrayList<Int>> = MutableLiveData()
     val addedCityNames: MutableLiveData<ArrayList<String>> = MutableLiveData()
-    val addedCityTemperatures: MutableLiveData<ArrayList<String>> = MutableLiveData()
 
     init {
         updateCities(sharedPreferences.getString(CITIES_KEY, ""))

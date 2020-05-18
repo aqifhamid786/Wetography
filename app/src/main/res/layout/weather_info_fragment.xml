@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewmodel"
+            type="com.aqif.wetography.weatherinfo.WeatherInfoFragmentVM" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:visibility="@{viewmodel.weatherData!=null?View.VISIBLE : View.INVISIBLE}">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewmodel.weatherData.name}"
+            android:layout_marginTop="16dp"
+            android:textSize="@dimen/weather_detail_title"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/weather_header_top_margin"
+            android:textSize="@dimen/weather_detail_header"
+            android:text="@string/temperature"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/weather_side_margin"
+            android:layout_marginLeft="@dimen/weather_side_margin"
+            android:text="@{String.format(@string/temperature_string_current, viewmodel.weatherData.main.temp)}"
+            android:textSize="@dimen/weather_detail_text"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/weather_header_top_margin"
+            android:text="@string/humidity"
+            android:textStyle="bold"
+            android:textSize="@dimen/weather_detail_header"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/weather_side_margin"
+            android:layout_marginLeft="@dimen/weather_side_margin"
+            android:text="@{String.format(@string/humidity_string_current, viewmodel.weatherData.main.humidity)}"
+            android:textSize="@dimen/weather_detail_text"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/weather_header_top_margin"
+            android:text="@string/description"
+            android:textStyle="bold"
+            android:textSize="@dimen/weather_detail_header"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/weather_side_margin"
+            android:layout_marginLeft="@dimen/weather_side_margin"
+            android:layout_marginRight="@dimen/weather_side_margin"
+            android:text="@{String.format(@string/weather_description, viewmodel.weatherData.main.temp_max, viewmodel.weatherData.main.temp_min, viewmodel.weatherData.main.pressure, viewmodel.weatherData.wind.speed, viewmodel.weatherData.wind.deg)}"
+            android:textSize="@dimen/weather_detail_text"
+            android:textColor="@android:color/black"/>
+
+    </LinearLayout>
+</layout>

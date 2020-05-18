@@ -10,11 +10,14 @@
         android:name="com.aqif.wetography.addedcities.AddedCitiesFragment"
         android:label="@string/added_cities_fragment_label"
         tools:layout="@layout/added_cities_fragment">
-
         <action
             android:id="@+id/action_AddedCitiesFragment_to_AddCityFragment"
             app:destination="@id/AddCityFragment" />
+        <action
+            android:id="@+id/action_AddedCitiesFragment_to_WeatherInfoFragment"
+            app:destination="@id/WeatherInfoFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/AddCityFragment"
         android:name="com.aqif.wetography.addcity.AddCityFragment"
@@ -25,4 +28,10 @@
             android:id="@+id/action_AddCityFragment_to_AddedCityFragment"
             app:destination="@id/AddedCitiesFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/WeatherInfoFragment"
+        android:name="com.aqif.wetography.weatherinfo.WeatherInfoFragment"
+        android:label="@string/weather_info_fragment_label"
+        tools:layout="@layout/weather_info_fragment"/>
 </navigation>

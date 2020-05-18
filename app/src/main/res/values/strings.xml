@@ -4,11 +4,19 @@
     <!-- Strings used for fragments for navigation -->
     <string name="added_cities_fragment_label">Added Cities Fragment</string>
     <string name="add_city_fragment_label">Add City Fragment</string>
+    <string name="weather_info_fragment_label">Weather Info Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <string name="add_some_cities_msg">Please add some cities.</string>
+    <string name="add_some_cities_msg">Please add some cities to view their weather conditions.</string>
+
+    <string name="temperature">Temperature:</string>
+    <string name="humidity">Humidity:</string>
+    <string name="description">Description:</string>
+    <string name="temperature_string_current">"%s degree"</string>
+    <string name="humidity_string_current">"%s percent"</string>
+    <string name="weather_description">"Today's maximum temperature is %s degree Celsius, minimum temperature is %s degree Celsius, and atmospheric pressure is %s hPa. Today wind is blowing at %s m/sec speed at %s degrees."</string>
 </resources>
