@@ -16,11 +16,18 @@ class AddedCitiesFragmentVM(application: Application) : AndroidViewModel(applica
             )
         )
 
-    var addedCities: LiveData<ArrayList<City>>  = addedCitiesRepository.addedCities
+    var addedCities: LiveData<ArrayList<City>>  = addedCitiesRepository.addedCitiesLiveData
 
     fun update() {
         addedCitiesRepository.update()
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        addedCitiesRepository.clear()
+    }
 
+    fun deleteCity(city: City) {
+        addedCitiesRepository.deleteCity(city)
+    }
 }

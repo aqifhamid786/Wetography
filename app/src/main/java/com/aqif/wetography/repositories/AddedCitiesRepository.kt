@@ -2,41 +2,49 @@ package com.aqif.wetography.repositories
 
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.aqif.wetography.model.City
+import com.aqif.wetography.restapi.CityTempData
 
-class AddedCitiesRepository(sharedPreferences: SharedPreferences) {
+class AddedCitiesRepository(sharedPreferences: SharedPreferences)  {
 
-    private var sharedPreferences: SharedPreferences = sharedPreferences
-    private var CITIES_KEY: String = "cities"
+    private val CITIES_KEY: String = "cities"
 
-    val addedCities: MutableLiveData<ArrayList<City>> = MutableLiveData()
-    val addedCityIds: MutableLiveData<ArrayList<Int>> = MutableLiveData()
-    val addedCityNames: MutableLiveData<ArrayList<String>> = MutableLiveData()
+    private val addedCities: ArrayList<City> = ArrayList()
+    private val weatherInfoRepository: WeatherInfoRepository = WeatherInfoRepository()
+    private val sharedPreferences: SharedPreferences = sharedPreferences
+    private val temperatureDataObserver = Observer<List<CityTempData>> { data ->
+        for (index in data.indices) { addedCities[index].temperature = "%s\u00B0C".format(data[index].main.temp) }
+        addedCitiesLiveData.value = addedCities
+    }
+
+    val addedCitiesLiveData: MutableLiveData<ArrayList<City>> = MutableLiveData()
 
     init {
-        updateCities(sharedPreferences.getString(CITIES_KEY, ""))
+        weatherInfoRepository.temperatureData.observeForever(temperatureDataObserver)
     }
 
     private fun updateCities(citiesString: String?) {
-
-        if (citiesString.toString().isEmpty())
+        if (citiesString.toString().isEmpty()) {
+            addedCitiesLiveData.value = addedCities
             return
-
-        val citiesList: ArrayList<City> = ArrayList()
-        val cityIdList: ArrayList<Int> = ArrayList()
-        val cityNameList: ArrayList<String> = ArrayList()
-
-        for (city in citiesString?.split("|")!!) {
-            val city: City =
-                City.fromString(city)
-            citiesList.add(city)
-            cityIdList.add(city.id)
-            cityNameList.add(city.name)
         }
+        addedCities.clear()
+        for (city in citiesString?.split("|")!!) {
+            addedCities.add(City.fromString(city))
+        }
+        addedCitiesLiveData.value = ArrayList(addedCities)
+        updateTemperature()
+    }
 
-        addedCities.value = citiesList
-        addedCityIds.value = cityIdList
-        addedCityNames.value = cityNameList
+    private fun updateTemperature() {
+        val buffer = StringBuffer()
+        for (city in addedCities) {
+            if(buffer.isNotEmpty())
+                buffer.append(',')
+            buffer.append(city.id)
+        }
+        weatherInfoRepository.getTemperature(buffer.toString())
     }
 
     fun update(){
@@ -47,22 +55,43 @@ class AddedCitiesRepository(sharedPreferences: SharedPreferences) {
         val cities: String = sharedPreferences.getString(CITIES_KEY, "").toString()
 
         if(cities.isNotEmpty()) {
-            updateCities(cities)
-            val cityNames: ArrayList<String> = addedCityNames.value!!
             val name = city?.name
             var found = false
-            for (cityName in cityNames) {
-                found = cityName == name
+            for (city in addedCities) {
+                found = city.name == name
                 if(found) break
             }
-            if(found) return
+            if(found) return // return if city is already in the list.
         }
 
         val citiesBuffer: StringBuffer = StringBuffer().append(city?.id).append(",").append(city?.name)
         if(cities.isNotEmpty())
-            citiesBuffer.append("|")
+            citiesBuffer.append("|").append(cities)
 
-        sharedPreferences.edit().putString(CITIES_KEY, citiesBuffer.append(cities).toString()).apply()
+        sharedPreferences.edit().putString(CITIES_KEY, citiesBuffer.toString()).apply()
         updateCities(cities)
     }
+
+    fun deleteCity(city: City) {
+        val citiesBuffer = StringBuffer()
+        val citiesList: ArrayList<City> = ArrayList()
+
+        for (addedCity in addedCities) {
+            if(addedCity.name != city.name) {
+                if(citiesBuffer.isNotEmpty()) citiesBuffer.append("|")
+                citiesBuffer.append(addedCity?.id).append(",").append(addedCity?.name)
+                citiesList.add(addedCity)
+            }
+        }
+        sharedPreferences.edit().putString(CITIES_KEY, citiesBuffer.toString()).apply()
+        addedCities.clear()
+        addedCities.addAll(citiesList)
+        addedCitiesLiveData.value = addedCities
+    }
+
+    fun clear() {
+        weatherInfoRepository.temperatureData.removeObserver(temperatureDataObserver)
+        addedCities.clear()
+    }
+
 }

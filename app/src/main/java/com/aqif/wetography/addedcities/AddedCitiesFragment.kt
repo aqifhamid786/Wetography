@@ -1,5 +1,6 @@
 package com.aqif.wetography.addedcities
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,16 +36,23 @@ class AddedCitiesFragment : Fragment() {
     {
         super.onViewCreated(view, savedInstanceState)
         binding.citiesRecyclerview.adapter = adapter
+        binding.lifecycleOwner = this
         adapter.onItemClicked(::onCitySelected)
+        adapter.onItemLongClicked(::onCityDeleteSelected)
 
         viewmodel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(activity!!.application)).get(
             AddedCitiesFragmentVM::class.java)
-        viewmodel!!.addedCities.observe(this, Observer { cities -> adapter.setCities(cities) })
+        viewmodel!!.addedCities.observe(this, Observer {
+            cities -> adapter.setCities(cities)
+            binding.swipeRefreshLayout.isRefreshing = false
+        })
 
         binding.viewmodel = viewmodel
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_AddedCitiesFragment_to_AddCityFragment)
         }
+
+        binding.swipeRefreshLayout.setOnRefreshListener { viewmodel?.update() }
     }
 
     override fun onResume() {
@@ -55,5 +63,14 @@ class AddedCitiesFragment : Fragment() {
     fun onCitySelected(city: City) {
         val bundle = bundleOf("userId" to city.id.toString())
         findNavController().navigate(R.id.action_AddedCitiesFragment_to_WeatherInfoFragment, bundle)
+    }
+
+    fun onCityDeleteSelected(city: City) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(resources.getString(R.string.delete_city_dialog_title).format(city.name))
+        builder.setMessage(resources.getString(R.string.delete_city_dialog_message).format(city.name))
+        builder.setPositiveButton(R.string.confirm) { _, _ -> viewmodel?.deleteCity(city) }
+        builder.setNegativeButton(R.string.cancel) { _, _ -> }
+        builder.create().show()
     }
 }

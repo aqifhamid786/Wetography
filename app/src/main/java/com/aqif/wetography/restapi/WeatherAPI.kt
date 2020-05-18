@@ -11,12 +11,11 @@ import retrofit2.http.Query
 
 
 interface WeatherAPI {
-
-    @GET("group")
+    @GET("weather")
     fun getWeather(@Query("id") ids: String?,
                    @Query("units") units: String="metric",
                    @Query("appid") appid: String = "a5312d81433c7df9f30b89211c8c0753"):
-            Observable<WeatherData>
+            Observable<CityWeatherData>
 
     @GET("group")
     fun getTemperature(@Query("id") ids: String?,
@@ -34,7 +33,7 @@ interface WeatherAPI {
             val retrofit = Retrofit.Builder().client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("https://samples.openweathermap.org/data/2.5/")
+                .baseUrl("https://api.openweathermap.org/data/2.5/")
                 .build()
 
             return retrofit.create(WeatherAPI::class.java)
